@@ -1,6 +1,10 @@
+from xmlrpc.server import list_public_methods
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect, render
+from django.template import loader
+
+from app import urls
 
 job_title = [
   "First Job", "Second Job", "Third Job", 
@@ -11,19 +15,33 @@ job_description = [
 ]
 
 def job_list(request):
-  # display list of jobs
-  list_page = "<ul>"
-  for idx, title in enumerate(job_title):
-    detail_url = reverse('job_detail', args=(idx,))
-    list_page += f"<li><h3><a href='{detail_url}'>{title}</a></h3></li>"
-  list_page += "</ul>"
-  return HttpResponse(list_page)
+  context = {
+    'job_title': job_title
+  }
+  return render(request, 'app/job_list.html', context)
 
 def job_detail(request, id):
   try:
     if(id == 8000):
       return redirect(reverse('job_home'))
-    return_html = f"<h1>{job_title[id]}</h1> <h3>{job_description[id]}</h3>"
-    return HttpResponse(return_html)
+    context = {
+      'single_job_title': job_title[id],
+      'single_job_description': job_description[id]
+    }
+    return render(request, 'app/job_detail.html', context)
   except Exception:
     return HttpResponseNotFound("Not Found")
+
+def hello(request):
+  context = {
+    'name':'Samwise',
+    'first_list': ["alpha", "beta"],
+    'temp_object': TempClass(),
+    'age': 53,
+    'is_authenticated': True,
+  }
+  return render(request, 'app/hello.html', context)
+
+class TempClass:
+  x = 5
+  

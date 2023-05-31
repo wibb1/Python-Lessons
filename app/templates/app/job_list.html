@@ -1,0 +1,7 @@
+<ul>
+	{% for title in job_title %}
+	<li>
+		<a href="{% url 'job_detail' forloop.counter0 %}">{{title}}</a>
+	</li>
+	{% endfor %}
+</ul>
