@@ -9,6 +9,7 @@ class JobPost(models.Model):
   salary = models.IntegerField()
   company = models.CharField(max_length=200)
   company_location = models.CharField(max_length=500)
+  expiry = models.DateField(null=True)
   slug = models.SlugField(null=True, max_length=40, unique=True)
   
   def __str__(self):
