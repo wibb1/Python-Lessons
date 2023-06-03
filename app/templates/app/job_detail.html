@@ -1,4 +1,5 @@
 <a href="{% url 'job_home' %}"><h4>Home</h4></a>
 
-<h1>{{single_job_title}}</h1>
-<h3>{{single_job_description}}</h3>
+<h1>{{job.title}}</h1>
+<h3>{{job.description}}</h3>
+<h3>{{job.salary}}</h3>

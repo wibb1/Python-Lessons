@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 
 from app import urls
+from app.models import JobPost
 
 job_title = [
   "First Job", "Second Job", "Third Job", 
@@ -15,19 +16,20 @@ job_description = [
 ]
 
 def job_list(request):
+  jobs = JobPost.objects.all()
   context = {
-    'job_title': job_title
+    'jobs': jobs
   }
   return render(request, 'app/job_list.html', context)
 
 def job_detail(request, id):
   try:
-    if(id == 8000):
+    if(id == 0):
       return redirect(reverse('job_home'))
     context = {
-      'single_job_title': job_title[id],
-      'single_job_description': job_description[id]
+      'job': JobPost.objects.get(id=id)
     }
+    
     return render(request, 'app/job_detail.html', context)
   except Exception:
     return HttpResponseNotFound("Not Found")

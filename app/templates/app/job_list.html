@@ -1,7 +1,7 @@
 <ul>
-	{% for title in job_title %}
+	{% for job in jobs %}
 	<li>
-		<a href="{% url 'job_detail' forloop.counter0 %}">{{title}}</a>
+		<a href="{% url 'job_detail' job.id %}"><h1>{{job}}</h1></a>
 	</li>
 	{% endfor %}
 </ul>
