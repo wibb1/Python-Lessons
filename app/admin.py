@@ -1,7 +1,9 @@
+from dataclasses import fields
+from os import name
 from turtle import title
 from django.contrib import admin
 
-from app.models import JobPost
+from app.models import JobPost, Location, Skill
 
 class JobAdmin(admin.ModelAdmin):
   list_display = ('company','title','salary', 'post_date',)
@@ -23,7 +25,38 @@ class JobAdmin(admin.ModelAdmin):
           'fields': ['company','salary','expiry',]
       },
     ),
+    (
+      'Location',
+      {
+        'classes': ['collapse'],
+        'fields': ['location',]
+      }
+    ),
+    (
+      'Skills',
+      {
+        'classes': ['collapse'],
+        'fields': ['name',]
+      }
+    )
+  ]
+  
+class LocationAdmin(admin.ModelAdmin):
+  fieldsets = [
+    (
+      'Location', 
+      {
+          'fields': ['street','city', 'state', 'country', ]
+      },
+    ),
   ]
 
+class SkillAdmin(admin.ModelAdmin):
+  fieldsets = [
+    ('Skill name', {'fields': ['name']})
+  ]
+  
 # Register your models here.
-admin.site.register(JobPost, JobAdmin)
+admin.site.register(JobPost)
+admin.site.register(Location)
+admin.site.register(Skill)
