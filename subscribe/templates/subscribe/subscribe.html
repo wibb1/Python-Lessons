@@ -9,18 +9,50 @@
 <body>
   <form method="POST">
     {% csrf_token %}
+    {{form.as_p}} 
+    {% comment %} available options - form.as_p, form.as_table, form.as_ul {% endcomment %}
+
+    {% comment %} 
+    #Form using just default tags inside div
+    {%for field in form%}
+      <div class='subscribe_field'>
+        {{field.errors}}
+        {{field.label_tag}}
+        {{field}}
+      </div>
+    {% endfor %} {% endcomment %}
+
+    {% comment %}
+    #form using html tags and for loop
+    {%for field in form%}
+      <div class='subscribe_field'>
+        {{field.errors}}
+        <label for='{{field.id_for_label}}'>
+          {{field.label}}
+        <label>
+        {{field}}
+      </div>
+    {% endfor %} {% endcomment %}
+
+    {% comment %} 
+    #Form using html tags
     {{form}}
+    <input type="submit" value='Submit'>  {% endcomment %}
+    {% comment %} <div class='subscribe_field'>
+      {{form.first_name.errors}}
+      <label for="{{form.first_name.id_for_label}}">{{form.first_name.label}}</label>
+      {{form.first_name}}
+    </div>
+    <div class='subscribe_field'>
+      {{form.last_name.errors}}
+      <label for="{{form.last_name.id_for_label}}">{{form.last_name.label}}</label>
+      {{form.last_name}}
+    </div>
+    <div class='subscribe_field'>
+      {{form.email.errors}}
+      <label for="{{form.email.id_for_label}}">{{form.email.label}}</label>
+      {{form.email}}
+    </div> {% endcomment %}
     <input type="submit" value='Submit'> 
-    {% comment %} {% csrf_token %}
-    {% if subscribe_error_empty %}
-      <p>{{subscribe_error_empty}}</p>
-    {% endif %}
-    <label for="f_name">First Name</label>
-    <input type="text" id="f_name" name='firstname' placeholder='Your First Name' required><br>
-    <label for="l_name">Last Name</label>
-    <input type="text" id="l_name" name='lastname' placeholder='Your Last Name' required><br>
-    <label for="email">Email</label>
-    <input type="text" id="email" name='email' placeholder='Your Email' required><br>
-    <input type="submit" value='Submit'> {% endcomment %}
   </form>
 </body>
