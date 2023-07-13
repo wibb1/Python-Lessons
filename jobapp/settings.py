@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
     'subscribe.apps.SubscribeConfig',
+    'uploadapp.apps.UploadappConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# setting the root directory for all user media uploads
+MEDIA_ROOT = BASE_DIR / 'uploads/'
+
+#setting defines where django will serve media uploaded by a user
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
