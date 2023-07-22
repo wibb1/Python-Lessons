@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang='en'>
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="Viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="{% static 'subscribe/main.css' %}">
-  <title>Subscribe Form</title>
-</html>
-<body>
-  <h1><img src="{% static 'subscribe/images/email-icon.png' %}" alt="Subscribe">Subscribe Form</h1>
-  <form method="POST">
-    {% csrf_token %}
-    {{form.as_p}} 
-    <input type="submit" value='Submit'> 
-  </form>
-  <button onClick=popup()>Click Me</button>
-  <script src="{% static 'subscribe/main.js' %}"></script>
-</body>
+{% extends 'base.html' %}
+
+{% block title %}
+  FlixCareers | Subscribe
+{% endblock title %}
+  
+
+{% block content %}
+  <section>
+    <div class="container">
+      <form class="email-form" method='post'> {% csrf_token %}
+        {{form.as_p}} 
+        <button class="email-submit">Submit<button> 
+      </form>
+  </section>
+{% endblock content %}
+  
+    
