@@ -9,10 +9,10 @@ function menu() {
 
 function toggleDiv(a) {
   a = a.parentNode.parentNode.parentNode
-  replybox = a.querySelector('.comment-box')
-  if (replybox.style.display === "none") {
-    replybox.style.display = "block";
+  replyBox = a.querySelector('.comment-box')
+  if (replyBox.style.display === "block") {
+		replyBox.style.display = "none";
   } else {
-    replybox.style.display = "none";
+		replyBox.style.display = "block";
   }
 }
