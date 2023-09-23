@@ -32,12 +32,14 @@
 
 			</div>
 			<div class="newsletter">
-				<form method="POST">
-					{%csrf_token%} {{subscribe_form}}
-					<button class="btn btn-primary">Subscribe</button>
-				</form>
+        {% if request.session.subscribed == None %}
+          <form method="POST">
+            {%csrf_token%} {{subscribe_form}}
+            <button class="btn btn-primary">Subscribe</button>
+          </form>
 				{%if subscribe_successful%} <br><p>{{subscribe_successful}}</p>{%endif%}
 			</div>
+      {% endif %}
 		</center>
 	</div>
 </main>
