@@ -1,12 +1,12 @@
-from django.shortcuts import render
-from app.forms import CommentForm, SubscribeForm
+from django.shortcuts import render, redirect
+from app import forms
+from app.forms import CommentForm, NewUserForm, SubscribeForm
 from app.models import Post, Comment, Tag, Profile, WebsiteMeta
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import Count
-
-# Create your views here.
+from django.contrib.auth import login
 
 def index(request):
   posts=Post.objects.all()
@@ -98,3 +98,34 @@ def about(request):
   context = {'website_info':website_info}
   return render(request, 'app/about.html', context)
   
+def register_user(request):
+  form = NewUserForm()
+  if request.method =='POST':
+    form = NewUserForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('/')
+  context = {'form': form}
+  return render(request, 'registration/registration.html', context)
+
+def clean_username(self):
+  username = self.cleaned_data['username'].lower()
+  new = User.objects.filter(username = username)
+  if new.count():
+    raise forms.ValidationError('User already exists')
+  return username
+
+def clean_email(self):
+  email = self.cleaned_data['email'].lower()
+  new = User.objects.filter(email = email)
+  if new.count():
+    raise forms.ValidationError('Email already exists')
+  return email
+
+def clean_password2(self):
+  password1 = self.cleaned_data['password1']
+  password2 = self.cleaned_data['password2']
+  if password1 and password2 and password2 != password1:
+    raise forms.ValidationError('Passwords must be the same')
+  return password2
