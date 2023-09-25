@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from app import forms
 from app.forms import CommentForm, NewUserForm, SubscribeForm
 from app.models import Post, Comment, Tag, Profile, WebsiteMeta
@@ -39,6 +39,11 @@ def post_page(request, slug):
   comments = Comment.objects.filter(post = post, parent=None)
   form = CommentForm()
   
+  bookmarked = False
+  if post.bookmarks.filter(id = request.user.id).exists():
+    bookmarked = True
+  is_bookmarked = bookmarked
+  
   if request.POST:
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid:
@@ -65,7 +70,7 @@ def post_page(request, slug):
     post.view_count = post.view_count + 1
   post.save()
   
-  context = {'post': post, 'form':form, 'comments':comments}
+  context = {'post': post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked}
   return render(request, 'app/post.html', context)
 
 def tag_page(request, slug):
@@ -129,3 +134,11 @@ def clean_password2(self):
   if password1 and password2 and password2 != password1:
     raise forms.ValidationError('Passwords must be the same')
   return password2
+
+def bookmark_post(request, slug):
+  post = get_object_or_404(Post, id=request.POST.get('post_id'))
+  if post.bookmarks.filter(id=request.user.id).exists():
+    post.bookmarks.remove(request.user)
+  else:
+    post.bookmarks.add(request.user)
+  return HttpResponseRedirect((reverse('post_page', args=[str(slug)])))
