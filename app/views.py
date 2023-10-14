@@ -1,3 +1,4 @@
+from ctypes.wintypes import tagSIZE
 from django.shortcuts import get_object_or_404, render, redirect
 from app import forms
 from app.forms import CommentForm, NewUserForm, SubscribeForm
@@ -77,7 +78,12 @@ def post_page(request, slug):
     post.view_count = post.view_count + 1
   post.save()
   
-  context = {'post': post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked, 'is_liked':is_liked, 'liked_count':liked_count}
+  recent_posts = Post.objects.exclude(id = post.id).order_by('-last_updated')[0:3]
+  top_authors = User.objects.annotate(number=Count('post')).order_by('-number')
+  tags = Tag.objects.all()
+  related_posts = Post.objects.exclude(id=post.id).filter(author=post.author)[0:3]
+  
+  context = {'post': post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked, 'is_liked':is_liked, 'liked_count':liked_count, 'recent_posts':recent_posts, 'top_authors':top_authors, 'tags':tags, 'related_posts':related_posts }
   return render(request, 'app/post.html', context)
 
 def tag_page(request, slug):
@@ -162,3 +168,13 @@ def all_bookmarked_posts(request):
   all_bookmarked_posts = Post.objects.filter(bookmarks=request.user)
   context = {'all_bookmarked_posts':all_bookmarked_posts}
   return render(request, 'app/all_bookmarked_posts.html', context)
+
+def all_posts(request):
+  all_posts = Post.objects.all()
+  context = {'all_posts':all_posts}
+  return render(request, 'app/all_posts.html', context)
+
+def all_liked_posts(request):
+  all_liked_posts = Post.objects.filter(likes=request.user)
+  context = {'all_liked_posts':all_liked_posts}
+  return render(request, 'app/all_liked_posts.html', context)
