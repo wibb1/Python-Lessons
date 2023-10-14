@@ -1,8 +1,18 @@
-user_prompt1 = "Enter a todo:"
-todo1 = input(user_prompt1)
-todo2 = input(user_prompt1)
-todo3 = input(user_prompt1)
-
-todos = [todo1, todo2, todo3]
-print(todos)
-print(type(todo1))
+user_prompt1 = "Type add or show: "
+user_prompt2 = "Enter a Todo: "
+todos = []
+while True:
+    user_action = input(user_prompt1)
+    match user_action.lower():
+        case 'add':
+            todo = input(user_prompt2)
+            todos.append(todo)
+        case 'show':
+            print(todos)
+        case 'exit':
+            break
+        case 'stop':
+            break
+        case 'end':
+            break
+print("Bye")
