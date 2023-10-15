@@ -1,5 +1,5 @@
 def main():
-    todos = ['first', 'second', 'third']
+    todos = read_todos()
     while True:
         user_prompt1 = set_actions(todos)
         user_action = input(user_prompt1).strip()
@@ -25,8 +25,8 @@ def main():
                             break
                         index = int(index) - 1
                         if -1 < index < todo_count:
-                            prompt = f"Enter the new value for {todos[index]}: "
-                            new_todo = input(prompt)
+                            prompt = f"Enter the new value for {str(todos[index])}: "
+                            new_todo = input(prompt) + "\n"
                             todos[index] = new_todo
                             valid = True
                         else:
@@ -40,6 +40,7 @@ def main():
                     todos.pop(number - 1)
             case _:
                 print("You have entered an unknown command")
+    write_todos(todos)
     print("Bye")
 
 
@@ -53,10 +54,24 @@ def set_actions(todos):
     return "".join(actions)
 
 
+def read_todos():
+    file = open('todos.txt', 'r')
+    todos = file.readlines()
+    file.close()
+    return todos
+
+
+def write_todos(todos):
+    file = open('todos.txt', 'w')
+    file.writelines(todos)
+    file.close()
+
+
 def show_print(todos):
     if len(todos) > 0:
         for i, item in enumerate(todos):
-            print(f"{i + 1}-{item.title()}")
+            text = f"{i + 1}-{item.title()}"
+            print(text, end="")
     else:
         print("Nothing in your todos")
 
