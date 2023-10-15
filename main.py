@@ -1,3 +1,5 @@
+# constant location of the text file
+FILE_LOCATION = r'todos.txt'
 def main():
     todos = read_todos()
     while True:
@@ -55,14 +57,14 @@ def set_actions(todos):
 
 
 def read_todos():
-    file = open('todos.txt', 'r')
+    file = open(FILE_LOCATION, 'r')
     todos = file.readlines()
     file.close()
     return todos
 
 
 def write_todos(todos):
-    file = open('todos.txt', 'w')
+    file = open(FILE_LOCATION, 'w')
     file.writelines(todos)
     file.close()
 
