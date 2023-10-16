@@ -38,8 +38,11 @@ def main():
             case 'complete' | 'done':
                 show_print(todos)
                 if len(todos):
-                    number = int(input("Number of the completed todo: "))
-                    todos.pop(number - 1)
+                    try:
+                        number = int(input("Number of the completed todo: "))
+                        todos.pop(number - 1)
+                    except ValueError:
+                        print("Enter an integer")
             case _:
                 print("You have entered an unknown command")
     write_todos(todos)
@@ -57,16 +60,14 @@ def set_actions(todos):
 
 
 def read_todos():
-    file = open(FILE_LOCATION, 'r')
-    todos = file.readlines()
-    file.close()
+    with open(FILE_LOCATION, 'r') as file:
+        todos = file.readlines()
     return todos
 
 
 def write_todos(todos):
-    file = open(FILE_LOCATION, 'w')
-    file.writelines(todos)
-    file.close()
+    with open(FILE_LOCATION, 'w') as file:
+        file.writelines(todos)
 
 
 def show_print(todos):
