@@ -7,33 +7,30 @@ def main():
     while True:
         user_prompt1 = set_actions(todos)
         user_action = input(user_prompt1).strip()
-        if 'add' in user_action:
+        if user_action.startswith('add'):
             todo = user_action[4:] + "\n"
             todos.append(todo)
-        elif 'edit' in user_action:
-            valid = False
+        elif user_action.startswith('edit'):
             todo_count = len(todos)
-            while not valid:
-                if todo_count < 1:
-                    print("Nothing in your todos")
-                    break
-                try:
-                    index = int(user_action[5:].strip()) - 1
-                    show_print(todos)
-                    if -1 < index < todo_count:
-                        prompt = f"Enter the new value for {str(todos[index])}: "
-                        new_todo = input(prompt).strip() + "\n"
-                        if new_todo == 'quit\n':
-                            break
-                        todos[index] = new_todo
-                        valid = True
-                    else:
-                        print("Index must be a value between 1 and", todo_count)
+            if todo_count < 1:
+                print("Nothing in your todos")
+                break
+            try:
+                index = int(user_action[5:].strip()) - 1
+                show_print(todos)
+                if -1 < index < todo_count:
+                    prompt = f"Enter the new value for {str(todos[index])}: "
+                    new_todo = input(prompt).strip() + "\n"
+                    if new_todo == 'quit\n':
                         break
-                except ValueError:
-                    print("Index must be an integer. Enter like 'edit 1'")
-                    break
-        elif 'complete' in user_action or 'done' in user_action:
+                    todos[index] = new_todo
+                else:
+                    print("Index must be a value between 1 and", todo_count)
+                    continue
+            except ValueError:
+                print("Index must be an integer. Enter like 'edit 1'")
+                continue
+        elif user_action.startswith('complete') or user_action.startswith('done'):
             todo_count = len(todos)
             if todo_count < 1:
                 print("Nothing in your todos")
@@ -49,7 +46,8 @@ def main():
                         todos.pop(number - 1)
                 except ValueError:
                     print("Enter an integer")
-        elif 'show' in user_action or 'display' in user_action:
+                    continue
+        elif user_action.startswith('show') or user_action.startswith('display'):
             show_print(todos)
         elif 'exit' in user_action or 'stop' in user_action:
             break
