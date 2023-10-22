@@ -18,7 +18,7 @@ def main():
                 break
             try:
                 index = int(user_action[5:].strip()) - 1
-                show_print(todos)
+                show_todos(todos)
                 if -1 < index < todo_count:
                     prompt = f"Enter the new value for {str(todos[index])}: "
                     new_todo = input(prompt).strip() + "\n"
@@ -51,7 +51,7 @@ def main():
                     print("Enter an integer")
                     continue
         elif user_action.startswith('show') or user_action.startswith('display'):
-            show_print(todos)
+            show_todos(todos)
         elif 'exit' in user_action or 'stop' in user_action:
             break
         else:
@@ -80,7 +80,7 @@ def write_todos(todos):
         file.writelines(todos)
 
 
-def show_print(todos):
+def show_todos(todos):
     item = ""
     if len(todos) > 0:
         for i, item in enumerate(todos):
