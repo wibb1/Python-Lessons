@@ -8,16 +8,16 @@ def convert(total_feet):
 def user_input():
     feet_inches = input("Enter feet and inches: ")
     measurements = feet_inches.split()
-    return [
-        float(measurements[0]),
-        float(measurements[1]) / 12 if len(measurements) > 1 else 0
-    ]
+    return {
+        "feet": float(measurements[0]),
+        "inches": float(measurements[1]) / 12 if len(measurements) > 1 else 0
+    }
 
 
 if __name__ == '__main__':
-    [feet, inches] = user_input()
-    total_meters = convert(feet + inches)
-    print(f"Feet = {feet}\nInches = {inches:.2f}\nTotal feet = {feet + inches:.2f}\nTotal meters = {total_meters:.2f}")
+    parts = user_input()
+    total_meters = convert(parts['feet'] + parts['inches'])
+    print(f"Feet = {parts['feet']}\nInches = {parts['inches']:.2f}\nTotal feet = {parts['feet'] + parts['inches']:.2f}\nTotal meters = {total_meters:.2f}")
     if total_meters > 0.5:
         print("You can use the slide!")
     else:
