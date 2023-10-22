@@ -10,6 +10,7 @@ def main():
         if user_action.startswith('add'):
             todo = user_action[4:] + "\n"
             todos.append(todo)
+            write_todos(todos)
         elif user_action.startswith('edit'):
             todo_count = len(todos)
             if todo_count < 1:
@@ -24,6 +25,7 @@ def main():
                     if new_todo == 'quit\n':
                         break
                     todos[index] = new_todo
+                    write_todos(todos)
                 else:
                     print("Index must be a value between 1 and", todo_count)
                     continue
@@ -44,6 +46,7 @@ def main():
                         print("Index must be a value between 1 and", todo_count)
                     else:
                         todos.pop(number - 1)
+                        write_todos(todos)
                 except ValueError:
                     print("Enter an integer")
                     continue
@@ -53,7 +56,6 @@ def main():
             break
         else:
             print("You have entered an unknown command")
-    write_todos(todos)
     print("Bye")
 
 
