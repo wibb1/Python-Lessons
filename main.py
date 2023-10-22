@@ -60,7 +60,7 @@ def main():
 
 
 def set_actions(todos):
-    # "Type add, show/display, edit, complete/done or exit/stop: "
+    """ checks the to do list length and sets the available actions available  """
     actions = ["Type add [todo's name]"]
     todo_count = len(todos)
     if todo_count:
@@ -69,18 +69,21 @@ def set_actions(todos):
     return "".join(actions)
 
 
-def read_todos():
-    with open(FILEPATH, 'r') as file:
+def read_todos(filepath=FILEPATH):
+    """Read a text file and return the list of items"""
+    with open(filepath, 'r') as file:
         todos = file.readlines()
     return todos
 
 
-def write_todos(todos):
-    with open(FILEPATH, 'w') as file:
+def write_todos(todos, filepath=FILEPATH):
+    """Write a list to a text file"""
+    with open(filepath, 'w') as file:
         file.writelines(todos)
 
 
 def show_todos():
+    """show the list of to do items"""
     todos = read_todos()
     if len(todos) > 0:
         for i, item in enumerate(todos):
