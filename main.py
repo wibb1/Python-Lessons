@@ -1,10 +1,10 @@
 # constant location of the text file
-FILE_LOCATION = r'todos.txt'
+FILEPATH = r'todos.txt'
 
 
 def main():
-    todos = read_todos()
     while True:
+        todos = read_todos()
         user_prompt1 = set_actions(todos)
         user_action = input(user_prompt1).strip()
         if user_action.startswith('add'):
@@ -18,7 +18,7 @@ def main():
                 break
             try:
                 index = int(user_action[5:].strip()) - 1
-                show_todos(todos)
+                show_todos()
                 if -1 < index < todo_count:
                     prompt = f"Enter the new value for {str(todos[index])}: "
                     new_todo = input(prompt).strip() + "\n"
@@ -51,7 +51,7 @@ def main():
                     print("Enter an integer")
                     continue
         elif user_action.startswith('show') or user_action.startswith('display'):
-            show_todos(todos)
+            show_todos()
         elif 'exit' in user_action or 'stop' in user_action:
             break
         else:
@@ -70,18 +70,18 @@ def set_actions(todos):
 
 
 def read_todos():
-    with open(FILE_LOCATION, 'r') as file:
+    with open(FILEPATH, 'r') as file:
         todos = file.readlines()
     return todos
 
 
 def write_todos(todos):
-    with open(FILE_LOCATION, 'w') as file:
+    with open(FILEPATH, 'w') as file:
         file.writelines(todos)
 
 
-def show_todos(todos):
-    item = ""
+def show_todos():
+    todos = read_todos()
     if len(todos) > 0:
         for i, item in enumerate(todos):
             text = f"{i + 1}-{item.title()}"
