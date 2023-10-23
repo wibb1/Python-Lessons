@@ -51,4 +51,4 @@ wheels/
 .installed.cfg
 *.egg
 /bonus/bonus6/
-/exercise6/
+/exercises/exercise6/
