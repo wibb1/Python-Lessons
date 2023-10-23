@@ -1,7 +1,10 @@
+import time
 import functions
 
 
 def main():
+    now = time.strftime("%b %d, %Y %H:%M:%S ")
+    print("It is", now)
     while True:
         todos = functions.read_todos()
         user_prompt1 = functions.set_actions(todos)
