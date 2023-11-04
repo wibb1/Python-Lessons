@@ -9,3 +9,5 @@ if photo:
 
     grey_image = img.convert('L')
     st.image(grey_image)
+
+uploaded = st.file_uploader("Upload Image")
