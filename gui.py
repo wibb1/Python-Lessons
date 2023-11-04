@@ -16,7 +16,7 @@ label = sg.Text("Type in a todo")
 input_box = sg.InputText(tooltip="Enter todo", key='todo')
 list_box = sg.Listbox(values=functions.read_todos(), key='todos',
                       enable_events=True, size=(45, 10))
-add_button  = sg.Button(size=5, image_source='add.png', mouseover_colors="LightBlue2", tooltip="Add todo", key='Add')
+add_button = sg.Button(size=5, image_source='add.png', mouseover_colors="LightBlue2", tooltip="Add todo", key='Add')
 
 edit_button = sg.Button(size=5, image_source='edit.png', mouseover_colors="LightBlue2", tooltip="Edit todo", key='Edit')
 
