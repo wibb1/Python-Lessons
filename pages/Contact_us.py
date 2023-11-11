@@ -1,18 +1,16 @@
 import streamlit as st
-import send_email
+from send_email import send_email
+import pandas
 
 st.header("Contact Us")
+df = pandas.read_csv("topics.csv")
 with st.form(key='contact_form', clear_on_submit=True):
     email = st.text_input("Tour Email Address", key="email_address")
-    subject = st.selectbox("What topic do you want to discus", ['Job Inquires', 'Project Proposals', 'Other'], key='Subject')
+    subject = st.selectbox("What topic do you want to discus", df['topics'], key='Subject')
     message = st.text_area("Text", height=25, key='Message')
-    outgoing_message = f"""
-Subject: {subject}\n
-From: {email}
-\n {message}
-"""
     submitted = st.form_submit_button()
 
     if submitted:
-        send_email(message)
+        send_email(email, subject, message)
+        st.info('Your email was sent!')
 
