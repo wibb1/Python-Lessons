@@ -31,7 +31,6 @@ def build_pdfs(directory):
     pdf.output(f"PDFs/animals.pdf")
 
 
-
 if __name__ == '__main__':
     base_directory = 'text-files/'
     build_pdfs(base_directory)
