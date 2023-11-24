@@ -50,6 +50,7 @@ def build_table(pdf, df):
     add_table_headers(df.columns, pdf)
     return add_table_data(df.iterrows(), pdf)
 
+
 def add_footer(total_price):
     pdf.set_font(family='Times', size=10, style='B')
     pdf.cell(w=50, h=8, txt=f"The total price: {total_price}", ln=1)
