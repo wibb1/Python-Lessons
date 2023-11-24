@@ -28,19 +28,34 @@ def add_table_headers(headers, pdf):
 
 
 def add_table_data(rows, pdf):
+    total_price = 0
     for index, row in rows:
         pdf.cell(w=30, h=8, txt=str(row['product_id']), border=1)
         pdf.cell(w=60, h=8, txt=str(row['product_name']), border=1)
         pdf.cell(w=40, h=8, txt=str(row['amount_purchased']), border=1)
         pdf.cell(w=30, h=8, txt=str(row['price_per_unit']), border=1)
         pdf.cell(w=30, h=8, txt=str(row['total_price']), border=1, ln=1)
+        total_price += row['total_price']
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=60, h=8, txt="", border=1)
+    pdf.cell(w=40, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt=str(total_price), border=1, ln=1)
+    return total_price
 
 
 def build_table(pdf, df):
     pdf.set_font(family='Times', size=10, style='B')
     pdf.set_text_color(80, 80, 80)
     add_table_headers(df.columns, pdf)
-    add_table_data(df.iterrows(), pdf)
+    return add_table_data(df.iterrows(), pdf)
+
+def add_footer(total_price):
+    pdf.set_font(family='Times', size=10, style='B')
+    pdf.cell(w=50, h=8, txt=f"The total price: {total_price}", ln=1)
+    pdf.set_font(family='Times', size=10, style='B')
+    pdf.cell(w=20, h=8, txt=f"PythonHow")
+    pdf.image("images/pythonhow.png", w=10)
 
 
 if __name__ == '__main__':
@@ -51,5 +66,6 @@ if __name__ == '__main__':
         filename = Path(filepath).stem
         pdf = FPDF(orientation='P', unit="mm", format="A4")
         build_header(pdf, filename)
-        build_table(pdf, df)
+        total_price = build_table(pdf, df)
+        add_footer(total_price)
         pdf.output(f"PDFs/{filename}.pdf")
