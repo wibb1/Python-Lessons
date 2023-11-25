@@ -6,15 +6,19 @@ from send_email import send_email
 def main():
     config = dotenv_values(".env")
     API_KEY = config['API_KEY']
-    url = f"https://newsapi.org/v2/everything?q=tesla&contry=us&sortBy=publishedAt&apiKey={API_KEY}"
+    topic = 'tesla'
+    url = (f"https://newsapi.org/v2/everything?"
+           f"q={topic}&"
+           f"sortBy=publishedAt&"
+           f"apiKey={API_KEY}"
+           f"&language=en")
     # handle errors
     request = requests.get(url)
     content = request.json()
-    outgoing_message = ''
-    for article in content['articles']:
+    outgoing_message = "Subject: Today's news\n"
+    for article in content['articles'][:20]:
         if article['title'] is not None:
-            outgoing_message += (f"{article['title'].strip()}\n"
-                                 f"{article['description'].strip()}\n\n")
+            outgoing_message += f"{article['title']}\n\n{article['description']}\n\n{article['url']}\n\n\n"
     send_email(outgoing_message.encode('utf-8'))
 
 
