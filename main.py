@@ -1,19 +1,21 @@
-import os
-
 import requests
-from dotenv import load_dotenv
+from dotenv import dotenv_values
+from send_email import send_email
 
 
 def main():
-    load_dotenv()
-    API_KEY = os.getenv('API_KEY')
-    url = f"https://newsapi.org/v2/everything?q=tesla&from=2023-10-24&sortBy=publishedAt&apiKey={API_KEY}"
+    config = dotenv_values(".env")
+    API_KEY = config['API_KEY']
+    url = f"https://newsapi.org/v2/everything?q=tesla&contry=us&sortBy=publishedAt&apiKey={API_KEY}"
+    # handle errors
     request = requests.get(url)
     content = request.json()
-    if content["status"] == 'ok':
-        for article in content['articles']:
-            print(article['title'])
-            print(article['description'])
+    outgoing_message = ''
+    for article in content['articles']:
+        if article['title'] is not None:
+            outgoing_message += (f"{article['title'].strip()}\n"
+                                 f"{article['description'].strip()}\n\n")
+    send_email(outgoing_message.encode('utf-8'))
 
 
 if __name__ == '__main__':
