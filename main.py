@@ -1,6 +1,7 @@
 import smtplib
 import time
 from email.message import EmailMessage
+import sqlite3
 
 import requests
 import selectorlib
@@ -9,6 +10,9 @@ from dotenv import dotenv_values
 URL = "https://programmer100.pythonanywhere.com/tours/"
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+
+
+connection = sqlite3.connect("data.db")
 
 
 def scrape(url):
@@ -24,14 +28,24 @@ def extract(source):
     return value
 
 
+def parse_row(extracted):
+    e_row = extracted.split(", ")
+    return [item.strip() for item in e_row]
+
+
 def store(extracted):
-    with open("data.txt", "a") as file:
-        file.write(extracted + "\n")
+    e_row = parse_row(extracted)
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO events VALUES(?, ?, ?)", e_row)
+    connection.commit()
 
 
-def read():
-    with open("data.txt") as file:
-        return file.read()
+def read(extracted):
+    band, city, date = parse_row(extracted)
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM events WHERE band=? AND city=? AND date=?", (band, city, date))
+    rows = cursor.fetchall()
+    return rows
 
 
 def send_email(message):
@@ -60,7 +74,8 @@ if __name__ == '__main__':
         extracted_data = extract(site_data)
         print(extracted_data)
         if extracted_data != "No upcoming tours":
-            if extracted_data not in read():
+            row = read(extracted_data)
+            if not row:
                 store(extracted_data)
                 send_email(message="New Event Found!")
-        time.sleep(60)
+        time.sleep(60 * 60 * 24)
