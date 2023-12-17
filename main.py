@@ -19,8 +19,25 @@ def extract(source):
     return value
 
 
-# Press the green button in the gutter to run the script.
+def send_email():
+    print("Email sent")
+
+
+def store(extracted):
+    with open("data.txt", "a") as file:
+        file.write(extracted + "\n")
+
+
+def read():
+    with open("data.txt") as file:
+        return file.read()
+
+
 if __name__ == '__main__':
-    data = scrape()
-    extracted = extract(data)
-    print(extracted)
+    site_data = scrape()
+    extracted_data = extract(site_data)
+    print(extracted_data)
+    if extracted_data != "No upcoming tours":
+        if extracted_data not in read():
+            store(extracted_data)
+            send_email()
