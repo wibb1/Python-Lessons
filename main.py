@@ -11,9 +11,9 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
 
-def scrape():
+def scrape(url):
     # Scrape the page source from the URL.
-    response = requests.get(URL, headers=HEADERS)
+    response = requests.get(url, headers=HEADERS)
     source = response.text
     return source
 
@@ -56,7 +56,7 @@ def send_email(message):
 
 if __name__ == '__main__':
     while True:
-        site_data = scrape()
+        site_data = scrape(URL)
         extracted_data = extract(site_data)
         print(extracted_data)
         if extracted_data != "No upcoming tours":
