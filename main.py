@@ -49,10 +49,8 @@ if __name__ == '__main__':
                 status = 1
                 date_time = datetime.datetime.now()
                 format_datetime = date_time.strftime("%Y%m%d%H%M%S.%f")
-                print(format_datetime)
                 cv2.imwrite(f"images/{format_datetime}.png", frame)
                 all_images = glob.glob("images/*.png")
-                print(str(len(all_images)))
                 index = int(len(all_images) / 2)
                 image_with_object = all_images[index]
 
