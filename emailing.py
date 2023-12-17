@@ -2,9 +2,12 @@ import imghdr
 import smtplib
 from email.message import EmailMessage
 from dotenv import dotenv_values
+import threading
 
 
 def send_email(image_path):
+    lock = threading.Lock()
+    lock.acquire()
     host = "smtp.gmail.com"
     port = 587
     config = dotenv_values(".env")
@@ -20,7 +23,7 @@ def send_email(image_path):
         content = file.read()
 
     email_message.add_attachment(content, maintype="image", subtype=imghdr.what(None, content))
-
+    lock.release()
     gmail = smtplib.SMTP(host, port)
     gmail.ehlo()
     gmail.starttls()

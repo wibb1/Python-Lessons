@@ -3,6 +3,7 @@ import os
 import time
 import datetime
 import cv2
+from threading import Thread
 
 from emailing import send_email
 
@@ -59,8 +60,14 @@ if __name__ == '__main__':
         status_list = status_list[-2:]
 
         if status_list[0] == 1 and status_list[1] == 0:
-            send_email(image_with_object)
-            empty_images_folder()
+            email_thread = Thread(target=send_email, args=(image_with_object, ))
+            email_thread.daemon = True
+
+            empty_images_thread = Thread(target=empty_images_folder, args=())
+            empty_images_thread.daemon = True
+
+            email_thread.start()
+            empty_images_thread.start()
 
         cv2.imshow("Video", frame)
         key = cv2.waitKey(1)
