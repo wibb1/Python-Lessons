@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Data</title>
+</head>
+<body>
+  <h1>Temperature data app</h1>
+  <p>URL format: http://127.0.0.1:5000/api/v1/station/date</p>
+  <p>URL example (one station one date): http://127.0.0.1:5000/api/v1/10/1988-01-22</p>
+  <p>URL example (one station all dates): http://127.0.0.1:5000/api/v1/10</p>
+  <p>URL example (one station readings for one year): http://127.0.0.1:5000/api/v1/yearly/10/1900</p>
+  {{data|safe}}
+</body>
+</html>
