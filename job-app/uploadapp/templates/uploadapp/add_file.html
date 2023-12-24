@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  FlixCareers | File upload  
+{% endblock title %}
+  
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form.as_p}}
+      <button type='submit'>Upload</button>
+    </form>
+    {% if saved_object %}
+      <h2>Upload Successful: {{saved_object.file.url}}</h2>
+      <h2>File description: {{saved_object.description}}</h2>    
+    {% endif %}
+{% endblock content %}
+  

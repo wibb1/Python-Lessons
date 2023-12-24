@@ -1,0 +1,27 @@
+<!-- This is an HTML Comment -->
+
+{% comment %}
+  This is a Django comment
+{% endcomment %}
+  
+{% if is_authenticated %}
+  <h1>Hello {{name}}</h1>
+{% else %}
+  <h1>Hello Guest</h1>
+{% endif %}
+
+{% if temp_object.x > 3 %}
+  <h2>{{temp_object.x}}</h2>
+{% endif %}
+
+<h2>Age: {{age}}</h2>
+
+<h1>Filters</h1>
+<p>filters length is {{first_list|length}} entries long</p>
+<p>is the filters length=2: {{first_list|length_is:'2'}}</p>
+<p>They are: </p>
+<ul>
+{% for x in first_list %}
+  <li>{{x}}</li>
+{% endfor %} 
+</ul>
