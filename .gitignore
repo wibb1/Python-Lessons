@@ -3,3 +3,4 @@
 .env
 __pycache__/
 /python-text-to-pdf/PDFs/
+**/.env
