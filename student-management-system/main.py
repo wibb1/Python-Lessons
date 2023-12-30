@@ -4,6 +4,8 @@ from PyQt6.QtWidgets import QApplication, QVBoxLayout, QLabel, QWidget, QGridLay
 import sys
 import sqlite3
 
+global main_window
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -101,4 +103,3 @@ def main():
 if __name__ == '__main__':
     # This code won't run if this file is imported.
     main()
-
