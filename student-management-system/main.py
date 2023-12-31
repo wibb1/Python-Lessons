@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
         search_action.triggered.connect(self.search)
         edit_menu_item.addAction(search_action)
 
-        edit_student_action = QAction(QIcon("icons/add.png"), "Add Student", self)
+        edit_student_action = QAction(QIcon("icons/add.png"), "Edit Student", self)
         edit_student_action.triggered.connect(self.edit)
         file_menu_item.addAction(edit_student_action)
 
