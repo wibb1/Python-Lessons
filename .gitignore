@@ -83,3 +83,5 @@ wheels/
 /webcam_monitoring/.env
 /python-app1/.idea/.name
 /webcam_monitoring/.env
+/invoice-generator/PDFs/10003-2023.1.18.pdf
+/python-app1/venv/Lib/site-packages/pip/_vendor/urllib3/contrib/_appengine_environ.py
